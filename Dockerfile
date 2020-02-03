@@ -21,5 +21,7 @@
  EXPOSE 8983
  WORKDIR /opt/solr
  USER solr
- CMD ["bin/solr", "start" , "-f" ]
+ #CMD ["bin/solr", "start" , "-f" ]
                           
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["solr-foreground"]
