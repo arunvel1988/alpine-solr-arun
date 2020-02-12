@@ -1,0 +1,33 @@
+  FROM alpine
+  
+  MAINTAINER admin
+   
+   
+   
+  RUN apk --update add openjdk8-jre wget gnupg bash curl && rm -rf /var/cache/apk/*
+   
+  RUN adduser solr --disabled-password
+   
+ 
+ RUN cd /opt  &&  wget https://archive.apache.org/dist/lucene/solr/8.3.1/solr-8.3.1.tgz 
+WORKDIR /opt
+RUN tar -xzf solr-8.3.1.tgz  && \
+ apk add --no-cache --upgrade bash && \
+ apk add openrc --no-cache
+
+ WORKDIR /opt/solr-8.3.1
+RUN chown -R solr:solr /opt/solr-8.3.1
+ USER solr
+ #RUN cp install_solr_service.sh /var
+# CMD ["bin/solr","start","-f"]
+ RUN  bin/solr start
+ RUN bin/solr stop -all
+ 
+CMD ["bin/solr","start","-f"]
+# EXPOSE 8983
+ 
+# USER solr
+  
+# RUN /opt/solr-8.3.1/bin/solr stop 
+#ENTRYPOINT ["docker-entrypoint.sh"]
+#CMD ["solr-foreground"]
